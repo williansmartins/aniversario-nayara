@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#07120f">
+  <meta name="description" content="Nayara — 40 anos. 40 Years, Countless Memories.">
+  <title>Nayara — 40 Years, Countless Memories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="paper-noise" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#home" data-page="home">
+      <span>N</span><small>40</small>
+    </a>
+    <nav>
+      <a href="#home" data-page="home">Início</a>
+      <a href="#presentes" data-page="presentes">Presentes</a>
+      <a href="#carrinho" data-page="carrinho">Carrinho <b id="cartCount">0</b></a>
+    </nav>
+    <button class="share-btn" id="shareBtn" title="Compartilhar">↗</button>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="home" class="page active">
+      <div class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">UMA DATA • UMA AVENTURA • MUITAS MEMÓRIAS</p>
+          <h1>Nayara</h1>
+          <div class="age-line"><strong>40</strong><span>ANOS</span></div>
+          <p class="script">40 Years, Countless Memories</p>
+          <p class="hero-text">Neste aniversário, troquei presentes por algo que vou guardar para sempre: novas experiências e memórias ao lado da minha família. ❤️</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#presentes" data-page="presentes">🎁 Escolher meu presente</a>
+            <a class="text-link" href="#historia" data-scroll="historia">Conheça a ideia ↓</a>
+          </div>
+        </div>
+        <div class="hero-art">
+          <img src="reference.jpg" alt="Arte de referência do aniversário de 40 anos">
+          <div class="art-caption">40 YEARS<br><span>COUNTLESS MEMORIES</span></div>
+        </div>
+      </div>
+
+      <div id="historia" class="story section">
+        <div class="section-kicker">✈️ O PRESENTE</div>
+        <h2>Um presente que vai virar memória.</h2>
+        <p>Para comemorar meus 40 anos, decidi trocar presentes por algo que vou guardar para sempre: <strong>novas experiências e memórias ao lado da minha família.</strong> ❤️</p>
+        <p>Se você quiser me presentear, preparei algumas opções para você escolher. Cada contribuição fará parte da nossa próxima aventura em família! ✨</p>
+        <div class="quote-card">
+          <span>“</span>
+          <p>O melhor presente é ter você comigo nesse dia!</p>
+          <small>— Nayara</small>
+        </div>
+      </div>
+
+      <div class="memory-banner">
+        <div><span>40</span><small>ANOS</small></div>
+        <p>Uma pequena contribuição.<br><strong>Uma grande memória.</strong></p>
+        <span class="plane">✈</span>
+      </div>
+
+      <div class="progress-section">
+        <div>
+          <span>JÁ ESTAMOS CRIANDO MEMÓRIAS</span>
+          <strong>62% completa! ✈️</strong>
+        </div>
+        <div class="progress"><i style="width:62%"></i></div>
+      </div>
+    </section>
+
+    <!-- PRESENTES -->
+    <section id="presentes" class="page">
+      <div class="page-heading">
+        <p class="eyebrow">ESCOLHA UMA MEMÓRIA</p>
+        <h2>🎁 Escolha seu presente</h2>
+        <p>Você pode escolher mais de uma opção e montar seu próprio presente.</p>
+      </div>
+
+      <div id="giftGrid" class="gift-grid"></div>
+
+      <div class="custom-gift">
+        <div class="custom-icon">💛</div>
+        <div>
+          <p class="eyebrow">PREFERE ESCOLHER OUTRO VALOR?</p>
+          <h3>Escolha seu próprio presente</h3>
+          <p>Você decide quanto deseja contribuir para a nossa próxima aventura.</p>
+        </div>
+        <div class="custom-input">
+          <span>$</span><input id="customAmount" type="number" min="1" step="1" placeholder="Outro valor">
+          <button class="btn orange" id="addCustom">Adicionar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CART -->
+    <section id="carrinho" class="page">
+      <div class="page-heading">
+        <p class="eyebrow">SEU PRESENTE</p>
+        <h2>🛒 Carrinho</h2>
+        <p>Revise sua escolha antes de continuar.</p>
+      </div>
+      <div class="cart-layout">
+        <div id="cartItems" class="cart-items"></div>
+        <aside class="summary">
+          <p class="eyebrow">RESUMO</p>
+          <div class="summary-row"><span>Subtotal</span><strong id="subtotal">$0</strong></div>
+          <div class="summary-row total"><span>Total</span><strong id="cartTotal">$0</strong></div>
+          <button class="btn primary full" id="toZelle">Continuar para pagamento →</button>
+          <button class="btn ghost full" data-page="presentes">← Escolher mais presentes</button>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ZELLE -->
+    <section id="zelle" class="page">
+      <div class="payment-wrap">
+        <div class="payment-card">
+          <p class="eyebrow">PAGAMENTO MANUAL</p>
+          <h2>💳 Pague pelo Zelle</h2>
+          <p class="payment-total">Seu presente: <strong id="zelleTotal">$0</strong></p>
+          <div class="zelle-contact">
+            <span>📱 Zelle</span>
+            <strong id="zelleContact">SEU E-MAIL OU NÚMERO</strong>
+            <button id="copyZelle" class="copy-btn">Copiar</button>
+          </div>
+          <div class="steps">
+            <h3>Como pagar</h3>
+            <ol>
+              <li>Abra o aplicativo do seu banco.</li>
+              <li>Escolha <strong>Zelle</strong>.</li>
+              <li>Envie o valor do seu presente para o contato acima.</li>
+              <li>No campo de mensagem, coloque <strong>Nayara 40 + seu nome</strong>.</li>
+              <li>Depois clique em “Já fiz o pagamento”.</li>
+            </ol>
+          </div>
+          <div class="notice">💡 <strong>Importante:</strong> seu presente ficará como “Aguardando confirmação” até que o pagamento seja identificado.</div>
+          <button class="btn orange full" id="paymentDone">✓ Já fiz o pagamento</button>
+          <button class="btn ghost full" data-page="carrinho">← Voltar ao carrinho</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONFIRMAÇÃO -->
+    <section id="confirmar" class="page">
+      <div class="form-wrap">
+        <div class="form-intro">
+          <p class="eyebrow">QUASE LÁ</p>
+          <h2>🧾 Confirme seu presente</h2>
+          <p>Depois de enviar pelo Zelle, preencha seus dados para que a Nayara consiga identificar e agradecer sua contribuição.</p>
+          <div class="mini-total">Valor informado: <strong id="confirmTotal">$0</strong></div>
+        </div>
+        <form id="giftForm" class="gift-form">
+          <label>Seu nome *<input name="name" required placeholder="Como você gostaria de ser identificado?"></label>
+          <label>E-mail *<input name="email" type="email" required placeholder="voce@email.com"></label>
+          <label>Telefone <span>(opcional)</span><input name="phone" placeholder="(000) 000-0000"></label>
+          <label>Valor enviado *<input name="amount" id="formAmount" type="number" required min="1"></label>
+          <label>Mensagem para a Nayara <span>(opcional)</span><textarea name="message" rows="4" placeholder="Deixe uma mensagem especial..."></textarea></label>
+          <label class="checkbox"><input type="checkbox" name="anonymous" id="anonymous"> <span>Quero que meu presente seja anônimo.</span></label>
+          <label class="checkbox"><input type="checkbox" name="paid" required> <span>Já fiz o pagamento pelo Zelle.</span></label>
+          <button class="btn primary full" type="submit">🎉 Confirmar meu presente</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- THANK YOU -->
+    <section id="obrigado" class="page">
+      <div class="thankyou">
+        <div class="burst">✦</div>
+        <p class="eyebrow">40 YEARS • COUNTLESS MEMORIES</p>
+        <h2>Muito obrigada! ❤️</h2>
+        <p class="large">Seu presente já faz parte dessa nova aventura.</p>
+        <p>Mais do que um valor, você está ajudando a criar uma memória que vamos levar para sempre.</p>
+        <div class="signature">Com carinho,<br><strong>Nayara</strong></div>
+        <a class="btn orange" href="#home" data-page="home">Voltar ao início</a>
+      </div>
+    </section>
+
+    <!-- ADMIN -->
+    <section id="admin" class="page">
+      <div class="admin-wrap">
+        <div class="page-heading">
+          <p class="eyebrow">ÁREA PRIVADA</p>
+          <h2>📊 Painel da Nayara</h2>
+          <p>Versão local: os registros ficam neste navegador.</p>
+        </div>
+        <div id="adminLogin" class="admin-login">
+          <p>Digite a senha para abrir o painel.</p>
+          <div><input id="adminPassword" type="password" placeholder="Senha"><button class="btn primary" id="adminEnter">Entrar</button></div>
+          <small>Senha inicial: <code>nayara40</code> — altere em <code>script.js</code> antes de publicar.</small>
+        </div>
+        <div id="adminPanel" class="hidden">
+          <div class="stats">
+            <div><span>Presentes</span><strong id="statPeople">0</strong></div>
+            <div><span>Total registrado</span><strong id="statTotal">$0</strong></div>
+            <div><span>Aguardando confirmação</span><strong id="statPending">0</strong></div>
+          </div>
+          <div class="admin-table-wrap">
+            <table>
+              <thead><tr><th>Data</th><th>Nome</th><th>Valor</th><th>Itens</th><th>Status</th><th>Mensagem</th></tr></thead>
+              <tbody id="adminRows"></tbody>
+            </table>
+          </div>
+          <button class="btn ghost" id="clearRecords">Apagar registros deste navegador</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-mark">N<span>40</span></div>
+    <p>40 Years, Countless Memories ✨</p>
+    <a href="#admin" data-page="admin">Área privada</a>
+  </footer>
+
+  <div id="toast" class="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>
