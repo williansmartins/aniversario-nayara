@@ -1,3 +1,5 @@
+const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbyHrFgW68jkZmPzkGKuNEnMRjaViiN2ydBbY-B-pHj8d2SBa21xDG9JB4hJoyxYFG_a/exec";
+
 const translations = {
   pt: {
     meta: {
@@ -302,7 +304,7 @@ const giftCatalog = {
     ["🍽️", "Uma refeição em família", 75, "Ajude a tornar uma noite da nossa viagem ainda mais especial."],
     ["🚗", "Ajuda para o transporte", 100, "Uma mãozinha para chegarmos a cada nova aventura."],
     ["📸", "Uma lembrança para registrar a viagem", 125, "Para guardar em fotos um momento que não queremos esquecer."],
-    ["🎟️", "Uma experiência especial", 150, "Ajude a transformar um dia comum em uma história para contar."],
+    ["🎟️", "Uma experiência especial", 150, "Ajude a transformar um dia comum em um aniversário em uma história para contar."],
     ["🌅", "Um passeio em família", 200, "Uma nova paisagem, boas conversas e uma memória para sempre."],
     ["🏨", "Uma noite de hospedagem", 250, "Um cantinho confortável para descansar durante a aventura."],
     ["🧳", "Uma parte da hospedagem", 300, "Sua contribuição ajuda a levar a família ainda mais longe."],
@@ -338,6 +340,32 @@ const STORAGE_KEYS = {
 
 const q = (selector) => document.querySelector(selector);
 const qa = (selector) => [...document.querySelectorAll(selector)];
+
+async function sendToGoogleSheets(payload) {
+  if (!GOOGLE_SHEETS_URL || GOOGLE_SHEETS_URL.includes("SEU_ID_DO_WEB_APP")) {
+    console.warn("Google Apps Script URL não configurada. Configure a constante GOOGLE_SHEETS_URL antes de publicar.");
+    return { ok: true, skipped: true };
+  }
+
+  try {
+    const response = await fetch(GOOGLE_SHEETS_URL, {
+      method: "POST",
+      mode: "cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro do servidor: ${response.status}`);
+    }
+
+    const result = await response.json().catch(() => ({}));
+    return { ok: true, result, skipped: false };
+  } catch (error) {
+    console.error("Falha ao enviar para o Google Sheets:", error);
+    return { ok: false, skipped: false, error };
+  }
+}
 
 const preferredLang = (() => {
   const saved = localStorage.getItem(STORAGE_KEYS.lang);
