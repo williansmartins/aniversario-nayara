@@ -342,6 +342,15 @@ const q = (selector) => document.querySelector(selector);
 const qa = (selector) => [...document.querySelectorAll(selector)];
 
 async function sendToGoogleSheets(payload) {
+  if (typeof google !== "undefined" && google.script && google.script.run) {
+    return new Promise((resolve) => {
+      google.script.run
+        .withSuccessHandler((result) => resolve({ ok: true, result, skipped: false }))
+        .withFailureHandler((error) => resolve({ ok: false, skipped: false, error }))
+        .salvarPresente(payload);
+    });
+  }
+
   if (!GOOGLE_SHEETS_URL || GOOGLE_SHEETS_URL.includes("SEU_ID_DO_WEB_APP")) {
     console.warn("Google Apps Script URL não configurada. Configure a constante GOOGLE_SHEETS_URL antes de publicar.");
     return { ok: true, skipped: true };
@@ -352,7 +361,7 @@ async function sendToGoogleSheets(payload) {
       method: "POST",
       mode: "cors",
       headers: {
-        "Content-Type": "text/plain;charset=utf-8",
+        "Content-Type": "application/json",
         "Accept": "application/json",
       },
       body: JSON.stringify(payload),
