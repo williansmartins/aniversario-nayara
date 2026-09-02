@@ -351,8 +351,11 @@ async function sendToGoogleSheets(payload) {
     const response = await fetch(GOOGLE_SHEETS_URL, {
       method: "POST",
       mode: "cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
