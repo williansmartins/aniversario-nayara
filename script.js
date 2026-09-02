@@ -93,6 +93,10 @@ const translations = {
       valueLabel: 'Valor informado: <strong id="confirmTotal">$0</strong>',
       name: "Seu nome *",
       namePlaceholder: "Como você gostaria de ser identificado?",
+      email: "E-mail *",
+      emailPlaceholder: "voce@email.com",
+      phone: "Telefone",
+      phonePlaceholder: "(000) 000-0000",
       amount: "Valor enviado *",
       message: "Mensagem para a Nayara (opcional)",
       messagePlaceholder: "Deixe uma mensagem especial...",
@@ -240,6 +244,10 @@ const translations = {
       valueLabel: 'Reported amount: <strong id="confirmTotal">$0</strong>',
       name: "Your name *",
       namePlaceholder: "How would you like to be identified?",
+      email: "E-mail *",
+      emailPlaceholder: "you@email.com",
+      phone: "Phone",
+      phonePlaceholder: "(000) 000-0000",
       amount: "Sent amount *",
       message: "Message for Nayara (optional)",
       messagePlaceholder: "Leave a special message...",
@@ -733,29 +741,57 @@ function bindEvents() {
   q("#copyZelle").addEventListener("click", copyZelleContact);
   q("#shareBtn").addEventListener("click", shareSite);
 
-  q("#giftForm").addEventListener("submit", (event) => {
+  q("#giftForm").addEventListener("submit", async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const itemText = state.cart
       .map((item) => `${cartItemName(item)} x${item.qty}`)
-      .join(" • ");
+      .join(" • ") || "Presente personalizado";
 
-    saveRecord({
+    const payload = {
       date: new Date().toLocaleString(state.lang === "pt" ? "pt-BR" : "en-US"),
-      name: formData.get("name"),
-      amount: Number(formData.get("amount")),
-      message: formData.get("message"),
+      name: String(formData.get("name") || "").trim(),
+      email: String(formData.get("email") || "").trim(),
+      phone: String(formData.get("phone") || "").trim(),
+      amount: Number(formData.get("amount") || 0),
+      message: String(formData.get("message") || "").trim(),
       anonymous: formData.get("anonymous") === "on",
+      paid: formData.get("paid") === "on",
       items: itemText,
       status: "pending",
-    });
+    };
+
+    const record = { ...payload };
+    saveRecord(record);
+
+    const submitBtn = q('#giftSubmitBtn');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = state.lang === "pt" ? "Enviando..." : "Sending...";
+    }
+
+    const remoteResult = await sendToGoogleSheets(payload);
+
+    if (remoteResult.ok || remoteResult.skipped) {
+      toast(state.lang === "pt" ? "Seu presente foi confirmado com sucesso!" : "Your gift was confirmed successfully!");
+    } else {
+      toast(state.lang === "pt" ? "Registro salvo localmente, mas houve falha no envio para a planilha." : "Saved locally, but the spreadsheet submission failed.");
+    }
 
     state.cart = [];
     saveCart();
     event.target.reset();
     renderCart();
     renderAdmin();
-    location.hash = "obrigado";
+
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = state.lang === "pt" ? "🎉 Confirmar meu presente" : "🎉 Confirm my gift";
+    }
+
+    setTimeout(() => {
+      location.hash = "obrigado";
+    }, 300);
   });
 
   q("#adminEnter").addEventListener("click", () => {
